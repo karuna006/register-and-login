@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGNUP</title>
+    <style>
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-content {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-content input,
+        button {
+            padding: 5px;
+            border: 1px solid #777;
+            margin-bottom: 20px;
+        }
+
+        .form-content {
+            display: flex;            
+        }
+
+        .form-action {
+            display: flex;            
+        }
+        
+        .form-action button{            
+            flex: 1 0 auto;
+        }
+
+        .mr10px {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <form id="signup_form" onsubmit="add_user()" action="#" method="post" class="form-content" autocomplete="off">
+            <input placeholder="Name" type="text" id="name" name="name" required>
+            <input placeholder="Email" type="mail" id="email" name="email" required>
+            <input placeholder="Number" type="text" id="number" name="number" required>            
+            <input placeholder="Password" type="password" id="password" name="password" required>                            
+            <div class="form-action">
+                <button onclick="window.location.href='login.html'" type="button" class="mr10px">LOGIN</button>
+                <button type="submit">SIGN UP</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    user_data = [];
+    username = document.querySelector('#name');
+    email = document.querySelector('#email');
+    number = document.querySelector('#number');
+    password = document.querySelector('#password');
+
+    getdata();
+    check_userLogin();
+    
+    function add_user() {
+        event.preventDefault();
+        data = {
+            id: Date.now(),
+            name: username.value,
+            email: email.value,
+            number: number.value,
+            password: password.value
+        }
+        check_user = user_data.find((data) => data.email === email.value);
+        if(check_user) {
+            alert('The email address you`ve entered is assigned to an existing account.');
+        }
+        else {
+            user_data.push(data);
+            localStorage.setItem('userlist', JSON.stringify(user_data));            
+            document.getElementById("signup_form").reset();
+            alert('successfully registered. Please attempt to login to your account.');
+        }
+    }
+
+    function getdata() {
+        userlist = localStorage.getItem('userlist');        
+        if (userlist) {            
+            user_data = JSON.parse(userlist);            
+        }
+    }    
+
+    function check_userLogin() {
+        userlogin = localStorage.getItem('login_data');        
+        if (userlogin) {                        
+            window.location.href='dashboard.html';         
+        }
+    }
+</script>
+
+</html>

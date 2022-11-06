@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <style>
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-content {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-content input,
+        button {
+            padding: 5px;
+            border: 1px solid #777;
+            margin-bottom: 20px;
+        }
+
+        .form-content {
+            display: flex;            
+        }
+
+        .form-action {
+            display: flex;            
+        }
+        
+        .form-action button{            
+            flex: 1 0 auto;
+        }
+
+        .mr10px {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form onsubmit="check_user()" action="#" method="post" class="form-content" autocomplete="off">            
+            <input placeholder="Email" type="mail" id="email" name="email" required>            
+            <input placeholder="Password" type="password" id="password" name="password" required>                            
+            <div class="form-action">
+                <button class="mr10px" onclick="window.location.href='index.html'" type="button">SIGN UP</button>
+                <button type="submit">LOGIN</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    user_data = [];    
+    email = document.querySelector('#email');    
+    password = document.querySelector('#password');
+    getdata();
+    check_userLogin();
+    // console.log(localStorage.getItem('userlist'));
+    function check_user() {
+        event.preventDefault();
+        user_log = user_data.find((data) => data.email === email.value && data.password === password.value);
+        if (user_log) {
+            localStorage.setItem('login_data',JSON.stringify(user_log));
+            window.location.href='dashboard.html';
+        }
+        else {
+            alert("Please check your email and password")
+        }
+    }
+
+    function getdata() {
+        userlist = localStorage.getItem('userlist');        
+        if (userlist) {            
+            user_data = JSON.parse(userlist);            
+        }
+    }    
+
+    function check_userLogin() {
+        userlogin = localStorage.getItem('login_data');        
+        if (userlogin) {                         
+            window.location.href='dashboard.html';         
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            
+        }
+
+        table,th,td {
+            border: 1px solid black;            
+            text-align: center;
+            padding: 5px;
+        }        
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="welcome_note"></h1>
+            <button onclick="logout()" type="button">Logout</button>
+        </div>
+
+        <div class="">
+            <h2>User List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Number</th>
+                        <th>Password</th>
+                    </tr>
+                </thead>
+                <tbody id="usertable_tbody">                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+    user_data = [];
+    getdata();
+    check_userLogin();
+
+    function getdata() {
+        userlist = localStorage.getItem('userlist');
+        if (userlist) {
+            user_data = JSON.parse(userlist);
+        }
+    }
+
+    function check_userLogin() {
+        userlogin = localStorage.getItem('login_data');
+        if (userlogin) {
+            login_data = JSON.parse(userlogin);
+            load_page();
+        }
+        else {
+            window.location.href = 'login.html';
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('login_data');
+        window.location.href = 'login.html';
+    }
+
+    function load_page() {
+        console.log(login_data.email);
+        document.querySelector(".welcome_note").innerHTML = "Welcome " + login_data.email;        
+        table = '';
+        no = 1;
+        user_data.forEach(data => {
+            table += '<tr><td>'+no+'</td><td>'+data.id+'</td><td>'+data.name+'</td><td>'+data.email+'</td><td>'+data.number+'</td><td>'+data.password+'</td></tr>';
+            no++;
+        });        
+        document.querySelector("#usertable_tbody").innerHTML = table;
+    }
+</script>
+
+</html>
